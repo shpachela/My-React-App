@@ -1,46 +1,31 @@
-import Header from "./components/Header";
-import WayToTeach from "./components/WayToTeach";
-import {ways, differences} from "./data";
-import Button from "./components/Button/Button";
-import {useState} from "react";
-
-
+import Header from "./components/Header/Header";
+import TeacingSection from "./components/TeachingSection";
+import ButtonSection from "./components/ButtonSection";
+import IntroSection from "./components/IntroSection";
+import TabsSection from "./components/TabSection";
+import FeedBackSecrion from "./components/FeedBackSection";
+import React, { useState } from 'react';
+import EffectSection from "./components/EffectSection";
 
 export default function App() {
-  const [ContentTyape, setContentType ] = useState(null)
-  function handlCliclk (type) {
-    setContentType(type)
-}
-
+  const [tab, setTab] = useState('effect')
   return (
-    <div>
+    <>
       <Header />
       <main>
-        <section>
-          <h3>Наш подход к обучению </h3>
-          <ul>
-            <WayToTeach {...ways[0]}/>
-            <WayToTeach {...ways[1]}/>
-            <WayToTeach {...ways[2]}/>
-            <WayToTeach {...ways[3]}/>
-          </ul>
-        </section>
-        <section>
-          <h3>Чем мы отличаемся от других</h3>
+        <IntroSection />
+        <TabsSection active={tab} onChange={(current) => setTab(current)} />
+        {tab === 'main' && (
+          <>
+            <TeacingSection />
+            <ButtonSection />
+          </>
+        )}
 
-          <Button isActive={ContentTyape === 'way'} onClick={() => handlCliclk('way')}>Подход</Button>
-          <Button isActive={ContentTyape === 'easy'} onClick={() => handlCliclk('easy')}>Доступность</Button>
-          <Button isActive={ContentTyape === 'program'} onClick={() => handlCliclk('program')}>Концентрация</Button>
+        {tab === 'feedback' && <FeedBackSecrion />}
+        {tab === 'effect' && <EffectSection />}
 
-          {/* {!ContentTyape ? <p>Нажми на кнопку</p> : null}
-          {ContentTyape ? <p>{differences[ContentTyape]}</p> : null} */}
-
-          {!ContentTyape && <p>Нажми на кнопку</p>}
-          {ContentTyape && <p>{differences[ContentTyape]}</p>}
-
-          
-        </section>
       </main>
-    </div>
+    </>
   );
 }
